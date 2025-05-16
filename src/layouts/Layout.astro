@@ -1,0 +1,30 @@
+---
+import "../styles/global.css";
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Joss the Magician - Official Website. Experience the unbelievable!"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-primary-0 text-primary-100 min-h-screen flex flex-col antialiased">
+    <slot name="navigation" />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

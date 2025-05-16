@@ -1,16 +1,120 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import Navigation from "../components/Navigation.astro";
+import SectionHero from "../components/SectionHero.astro";
+import Quote from "../components/Quote.astro";
+import SectionText from "../components/SectionText.astro";
+import SectionImgText from "../components/SectionImgText.astro";
+import SectionFAQ from "../components/SectionFAQ.astro";
+import LastCTA from "../components/LastCTA.astro";
+import Footer from "../components/Footer.astro";
 
+// Placeholder text content - replace with your actual content
+const elMagoP1 =
+  "Con una trayectoria que fusiona el asombro clásico con la innovación contemporánea, Joss Ortiz se ha consolidado como uno de los magos más versátiles y cautivadores de la escena actual. Su habilidad para conectar con el público, sin importar la edad o el escepticismo, transforma cada evento en una experiencia memorable.";
+const elMagoP2 =
+  "Desde elegantes eventos corporativos hasta celebraciones privadas íntimas, Joss adapta su magia para crear el ambiente perfecto, dejando una estela de sonrisas, sorpresa y la eterna pregunta: ¿cómo lo hizo?";
+
+const opinionesP1 =
+  "La magia de Joss no solo engaña a los ojos, sino que también toca el corazón. Cada acto está imbuido de una pasión y un carisma que envuelven al espectador, llevándolo a un mundo donde lo imposible se vuelve realidad por un instante.";
+const opinionesP2 =
+  "Los testimonios de quienes han presenciado su show hablan por sí solos: una mezcla de profesionalismo impecable, humor inteligente y, por supuesto, ilusiones que desafían toda lógica. Prepárate para ser parte de algo único.";
+
+// FAQ Data - Questions from prototype, answers are placeholders
+const faqsData = [
+  {
+    question: "¿Qué tipo de eventos cubre Joss Ortiz?",
+    answer:
+      "Joss Ortiz ofrece espectáculos de magia para una amplia gama de eventos, incluyendo fiestas privadas, eventos corporativos, bodas, festivales y más. Cada show se adapta a la audiencia y al motivo del evento.",
+  },
+  {
+    question: "¿Con cuánto tiempo de anticipación debo reservar?",
+    answer:
+      "Se recomienda reservar con la mayor anticipación posible, especialmente para fechas populares. Sin embargo, no dudes في consultar disponibilidad incluso para eventos próximos.",
+  },
+  {
+    question: "¿El show es apto para todas las edades?",
+    answer:
+      "Sí, Joss Ortiz se especializa en magia familiar y corporativa que puede ser disfrutada por públicos de todas las edades. El contenido siempre es apropiado y entretenido.",
+  },
+  {
+    question: "¿Qué duración tiene el espectáculo de magia?",
+    answer:
+      "La duración del show puede variar según las necesidades del evento, usualmente entre 45 minutos y 1 hora y media. Se pueden acordar duraciones personalizadas.",
+  },
+  {
+    question: "¿Joss Ortiz viaja para realizar shows fuera de su ciudad?",
+    answer:
+      "Sí, Joss Ortiz está disponible para viajar a nivel nacional e internacional. Los costos de viáticos se discuten y acuerdan como parte del presupuesto total.",
+  },
+  {
+    question: "¿Qué necesito proveer para el show?",
+    answer:
+      "Los requerimientos técnicos varían según el tipo de show (close-up, escenario, etc.). Generalmente, se discuten durante la contratación. Para shows de escenario, se puede requerir equipo de sonido e iluminación básico.",
+  },
+  {
+    question: "¿Cómo puedo obtener una cotización para mi evento?",
+    answer:
+      "Puedes obtener una cotización contactando directamente a través del formulario en esta página, por correo electrónico o por teléfono. Proporciona tantos detalles de tu evento como sea posible para una cotización precisa.",
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Joss Ortiz - Mago Profesional">
+  <Navigation slot="navigation" />
+
+  <main class="flex-grow">
+    <SectionHero id="hero" />
+
+    <SectionText
+      id="el-mago"
+      title="El Mago"
+      imageSrc="/assets/images/joss-el-mago.jpg"
+      imageAlt="Joss Ortiz El Mago realizando un acto de magia"
+      imagePosition="left"
+    >
+      <p>{elMagoP1}</p>
+      <p>{elMagoP2}</p>
+    </SectionText>
+
+    <Quote
+      id="quote1"
+      text="El único mago que conozco que es un verdadero SHOWMAN!"
+      author="— Paco cachondo"
+    />
+
+    <SectionText
+      id="el-show"
+      title="El Show"
+      imageSrc="/assets/images/joss-el-mago.jpg"
+      imageAlt="Joss Ortiz El Mago realizando un acto de magia"
+      imagePosition="right"
+    >
+      <p>{elMagoP1}</p>
+      <p>{elMagoP2}</p>
+    </SectionText>
+
+    <SectionImgText
+      id="opiniones"
+      title="Lo que la gente opina del Show"
+      imgSrc="/assets/images/review-cards.png"
+      imgAlt="Tarjetas con opiniones del show de magia"
+      imgPosition="left"
+    >
+      <p>{opinionesP1}</p>
+      <p>{opinionesP2}</p>
+    </SectionImgText>
+
+    <Quote
+      id="quote2"
+      text="El show más asombroso que jamás he visto"
+      author="— Alguien importante"
+    />
+
+    <SectionFAQ id="faq" title="Preguntas Frecuentes" faqs={faqsData} />
+
+    <LastCTA id="contacto" />
+  </main>
+
+  <Footer slot="footer" />
+</Layout>

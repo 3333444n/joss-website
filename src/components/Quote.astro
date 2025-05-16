@@ -1,0 +1,23 @@
+---
+// Quote component
+interface Props {
+  text: string;
+  author?: string;
+  id?: string;
+  class?: string;
+}
+
+const { text, author, id, class: className } = Astro.props;
+---
+<section id={id} class:list={["py-16 md:py-24 bg-primary-0", className]}>
+  <div class="container mx-auto px-4 text-center">
+    <blockquote class="max-w-3xl mx-auto">
+      <p class="font-aglio text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary-100 leading-tight md:leading-tight">
+        “{text}”
+      </p>
+      {author && <cite class="block mt-6 md:mt-8 font-inter text-xl md:text-2xl text-primary-y not-italic tracking-wide">
+        — {author}
+      </cite>}
+    </blockquote>
+  </div>
+</section>

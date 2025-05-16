@@ -1,0 +1,224 @@
+---
+import FacebookIcon from "../assets/icons/logo-facebook.svg";
+import InstagramIcon from "../assets/icons/logo-instagram.svg";
+import TikTokIcon from "../assets/icons/logo-tiktok.svg";
+import MenuIcon from "../assets/icons/menu-outline.svg";
+import CloseIcon from "../assets/icons/close-outline.svg";
+import Logo from "../assets/images/isotipo_blanco_v01.png";
+import { Image } from "astro:assets";
+
+// Data for social media links
+const socialLinks = [
+  {
+    href: "#",
+    icon: FacebookIcon,
+    alt: "Facebook icon",
+  },
+  {
+    href: "#",
+    icon: InstagramIcon,
+    alt: "Instagram icon",
+  },
+  {
+    href: "#",
+    icon: TikTokIcon,
+    alt: "TikTok icon",
+  },
+];
+
+// Data for navigation links
+const navLinks = [
+  { href: "#", text: "Acerca de mí" },
+  { href: "#", text: "Shows" },
+  { href: "#", text: "Opiniones" },
+  { href: "#", text: "Preguntas Frecuentes" },
+];
+---
+
+<nav
+  class="bg-primary-0 px-6 py-4 w-full fixed top-0 left-0 right-0 z-50 border-b border-primary-25"
+>
+  <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center justify-between w-full">
+      <!-- Left Section: Social Media Icons -->
+      <div class="flex items-center space-x-3">
+        {
+          socialLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-primary-y hover:opacity-75 transition-opacity duration-150"
+            >
+              <link.icon class="h-6 w-6 fill-current" />
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- Center Section: Navigation Links -->
+      <div class="flex items-center space-x-4 font-sans">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-text-white hover:text-text-grey transition-colors duration-150"
+            >
+              {link.text}
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- Right Section: WhatsApp Button -->
+      <div>
+        <a
+          href="#"
+          class="bg-primary-y text-text-black px-4 py-2 rounded-full hover:bg-opacity-80 font-sans font-semibold text-sm md:text-base transition-opacity duration-150 whitespace-nowrap"
+        >
+          cotiza por whatsapp
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden flex items-center justify-between w-full">
+      <!-- Left Section: Logo -->
+      <a href="/" class="z-50">
+        <Image src={Logo} alt="Logo" class="h-8 w-auto" />
+      </a>
+
+      <!-- Right Section: Hamburger Menu Button -->
+      <button
+        id="menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="z-50 text-text-white p-2 relative w-12 h-12 rounded-full bg-transparent"
+      >
+        <span class="sr-only">Open main menu</span>
+        <MenuIcon
+          id="hamburger-icon"
+          class="h-8 w-8 stroke-current transition-opacity duration-300 ease-in-out opacity-100 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+        <CloseIcon
+          id="close-icon"
+          class="h-8 w-8 stroke-current transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Full-Screen Mobile Menu Overlay -->
+<div
+  id="mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  class="fixed inset-0 w-screen h-screen bg-primary-0 z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out"
+>
+  <!-- Navigation Links -->
+  <div class="flex flex-col items-center space-y-6">
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="font-aglio text-primary-y text-3xl hover:opacity-75 transition-opacity duration-150"
+        >
+          {link.text}
+        </a>
+      ))
+    }
+  </div>
+
+  <!-- Social Media Icons (Bottom) -->
+  <div class="absolute bottom-10 flex items-center space-x-6">
+    {
+      socialLinks.map((link) => (
+        <a
+          href={link.href}
+          class="text-primary-y hover:opacity-75 transition-opacity duration-150"
+        >
+          <link.icon class="h-8 w-8 fill-current" />
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const hamburgerIcon = document.getElementById("hamburger-icon");
+  const closeIcon = document.getElementById("close-icon");
+  let isMenuOpen = false;
+
+  if (menuToggle && mobileMenu && hamburgerIcon && closeIcon) {
+    menuToggle.addEventListener("click", () => {
+      isMenuOpen = !isMenuOpen;
+      menuToggle.setAttribute("aria-expanded", isMenuOpen.toString());
+
+      if (isMenuOpen) {
+        mobileMenu.classList.remove("opacity-0", "pointer-events-none");
+        mobileMenu.classList.add("opacity-100", "pointer-events-auto");
+        hamburgerIcon.classList.remove("opacity-100");
+        hamburgerIcon.classList.add("opacity-0", "pointer-events-none");
+        closeIcon.classList.remove("opacity-0", "pointer-events-none");
+        closeIcon.classList.add("opacity-100");
+        document.body.classList.add("overflow-hidden");
+      } else {
+        mobileMenu.classList.add("opacity-0", "pointer-events-none");
+        mobileMenu.classList.remove("opacity-100", "pointer-events-auto");
+        hamburgerIcon.classList.remove("opacity-0", "pointer-events-none");
+        hamburgerIcon.classList.add("opacity-100");
+        closeIcon.classList.remove("opacity-100");
+        closeIcon.classList.add("opacity-0", "pointer-events-none");
+        document.body.classList.remove("overflow-hidden");
+      }
+    });
+
+    // Close menu when a link is clicked (optional, but good UX)
+    const mobileNavLinks = mobileMenu.querySelectorAll("a");
+    mobileNavLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (isMenuOpen) {
+          menuToggle.click();
+        }
+      });
+    });
+  }
+</script>
+
+<!--
+  Key features implemented based on prompt:
+  - bg-primary-0 for nav background.
+  - px-6 py-4 for nav padding.
+  - max-w-screen-xl mx-auto for inner container centering and max width.
+  - flex items-center justify-between for layout of the three sections.
+  - Social Icons: yellow (text-primary-y), hover:opacity-75, specific icons from assets.
+  - Nav Links: text-text-white, hover:text-text-grey, font-sans, hidden on small screens.
+  - WhatsApp Button: bg-primary-y, text-text-black, px-4 py-2, rounded-lg, hover:bg-opacity-80, font-sans, font-semibold.
+  - Bottom border: border-b border-primary-25.
+  - Responsive considerations for button text size (text-sm md:text-base).
+  - All links use href="#".
+-->
+<!--
+  New features for mobile menu:
+  - Imported MenuIcon, CloseIcon, and Logo.
+  - Desktop navigation wrapped in `hidden md:flex`.
+  - Mobile navigation section with Logo on left and Hamburger on right (`md:hidden`).
+  - Hamburger/Close icon toggle functionality with SVGs.
+  - Full-screen mobile menu overlay (`#mobile-menu`):
+    - `fixed inset-0 w-screen h-screen bg-primary-0 z-40`
+    - Fade in/out animation (`transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none`)
+    - Vertically stacked, centered navigation links with `font-aglio text-primary-y text-3xl`.
+    - Social media icons at the bottom, `text-primary-y`.
+  - JavaScript for:
+    - `isMenuOpen` state.
+    - Event listener on `menu-toggle`.
+    - Toggling classes for menu visibility, icon swapping.
+    - `aria-expanded` attribute update.
+    - Body scroll lock (`overflow-hidden` on `<body>`).
+    - Closing menu on nav link click.
+  - SVGs (`MenuIcon`, `CloseIcon`) use `fill-current` and parent `text-text-white` for color.
+  - Logo `Image` component from `astro:assets`.
+  - Mobile menu z-index `z-40` (nav bar is `z-50`, button and logo on mobile also `z-50` to be above menu initially).
+-->

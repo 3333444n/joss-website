@@ -1,0 +1,39 @@
+---
+// SectionFAQ component - container for multiple FAQ components
+import FAQ from './FAQ.astro';
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title?: string;
+  faqs: FAQItem[];
+  id?: string;
+  class?: string;
+}
+
+const { 
+  title = "Preguntas Frecuentes", 
+  faqs, 
+  id, 
+  class: className 
+} = Astro.props;
+---
+<section id={id} class={`py-16 md:py-24 bg-primary-0 ${className}`}>
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl md:text-5xl lg:text-6xl font-aglio text-primary-y text-center mb-12 md:mb-16">
+      {title}
+    </h2>
+    <div class="max-w-3xl mx-auto space-y-0">
+      {faqs.map((faq, index) => (
+        <FAQ question={faq.question} isLast={index === faqs.length - 1}>
+          <div class="pb-4 pt-2 text-base md:text-lg">
+            {faq.answer} {/* Consider set:html if answer contains HTML */}
+          </div>
+        </FAQ>
+      ))}
+    </div>
+  </div>
+</section>

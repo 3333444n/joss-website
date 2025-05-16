@@ -1,0 +1,59 @@
+---
+import FacebookIcon from "../assets/icons/logo-facebook.svg";
+import InstagramIcon from "../assets/icons/logo-instagram.svg";
+import TiktokIcon from "../assets/icons/logo-tiktok.svg";
+
+// TODO: Replace with actual social media URLs
+const socialLinks = {
+  facebook: "https://www.facebook.com/",
+  instagram: "https://www.instagram.com/",
+  tiktok: "https://www.tiktok.com/",
+};
+
+const yearForCopyright = 2025; // As per the design image
+---
+
+<footer
+  class="bg-black text-primary-y py-10 px-4 mt-auto border-t border-primary-y"
+>
+  <div
+    class="container mx-auto flex flex-col items-center space-y-8 text-center"
+  >
+    <p class="text-lg font-medium">Sígueme en mis otros canales</p>
+
+    <div class="flex items-center justify-center space-x-8">
+      <a
+        href={socialLinks.facebook}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+        class="transition-opacity duration-300 hover:opacity-75"
+      >
+        <FacebookIcon class="w-7 h-7 fill-primary-y" />
+      </a>
+      <a
+        href={socialLinks.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        class="transition-opacity duration-300 hover:opacity-75"
+      >
+        <InstagramIcon class="w-7 h-7 fill-primary-y" />
+      </a>
+      <a
+        href={socialLinks.tiktok}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="TikTok"
+        class="transition-opacity duration-300 hover:opacity-75"
+      >
+        <TiktokIcon class="w-7 h-7 fill-primary-y" />
+      </a>
+    </div>
+
+    <p class="text-xs">
+      Joss Ortiz © {yearForCopyright}. Todos los Derechos Reservados. Diseñado
+      por Arko MKT.
+    </p>
+  </div>
+</footer>

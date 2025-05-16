@@ -1,0 +1,38 @@
+---
+// SectionHero component
+// Props are not strictly needed for this specific design but kept for potential future flexibility if desired.
+interface Props {
+  id?: string;
+  class?: string;
+  ctaLink?: string; // Prop for button link if desired for more flexibility
+  ctaText?: string; // Prop for button text if desired
+}
+
+const {
+  id,
+  class: className,
+  ctaLink = "#contacto", // Default link to LastCTA section
+  ctaText = "Cotiza tu evento", // Default button text
+} = Astro.props;
+---
+
+<section
+  id={id || "hero"}
+  class:list={[
+    "min-h-screen flex flex-col items-center justify-center text-center bg-primary-0 text-primary-100 px-4",
+    className,
+  ]}
+>
+  <div class="py-12 md:py-16">
+    <h1
+      class="text-7xl sm:text-8xl md:text-9xl lg:text-[160px] xl:text-[200px] font-aglio leading-none tracking-tight"
+    >
+      JOSS<br />ORTIZ
+    </h1>
+  </div>
+  <div class="mt-4 md:mt-8 pb-12 md:pb-16">
+    <a href={ctaLink} class="button-primary text-lg md:text-xl">
+      {ctaText}
+    </a>
+  </div>
+</section>

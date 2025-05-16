@@ -1,0 +1,46 @@
+---
+// SectionImgText component
+interface Props {
+  title: string;
+  imgSrc: string;
+  imgAlt: string;
+  imgPosition?: 'left' | 'right';
+  id?: string;
+  class?: string;
+}
+
+const { 
+  title, 
+  imgSrc, 
+  imgAlt, 
+  imgPosition = 'left', 
+  id, 
+  class: className 
+} = Astro.props;
+
+const textOrderClass = imgPosition === 'left' ? 'md:order-2' : 'md:order-1';
+const imageOrderClass = imgPosition === 'left' ? 'md:order-1' : 'md:order-2';
+---
+<section id={id} class={`py-16 md:py-24 bg-primary-0 ${className}`}>
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16">
+      <div class={`md:w-1/2 ${textOrderClass}`}>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 leading-tight font-aglio text-primary-y">
+          {title}
+        </h2>
+        <div class="prose prose-lg prose-invert max-w-none text-primary-100 font-inter leading-relaxed space-y-6">
+          <slot />
+        </div>
+      </div>
+      <div class={`md:w-1/2 flex-shrink-0 ${imageOrderClass}`}>
+        <img 
+          src={imgSrc} 
+          alt={imgAlt} 
+          class="w-full h-auto object-contain rounded-lg shadow-lg max-h-[400px] md:max-h-[500px]" 
+          loading="lazy" 
+          width="600" 
+          height="600" />
+      </div>
+    </div>
+  </div>
+</section>

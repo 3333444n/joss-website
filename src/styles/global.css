@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-100: #FFFFFF;
+  --color-75: #C0C0C0;
+  --color-50: #898989;
+  --color-25: #4E4E4E;
+  --color-y: #FFB830;
+  --color-0: #000000;
+  --color-r: #FF0000;
+
+  --text-black: var(--color-0);
+  --text-grey: var(--color-50);
+  --text-white: var(--color-100);
+  --text-highlight1: var(--color-y);
+  --text-highlight2: var(--color-r);
+}
+
+@font-face {
+  font-family: 'Aglio Picasso';
+  src: url('../assets/fonts/aglio-picasso.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter.ttf') format('truetype');
+  font-weight: normal; /* Adjust if you have different weights */
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-0); /* Black background */
+  color: var(--color-100); /* Default white text */
+  -webkit-font-smoothing: antialiased; /* Smoother fonts */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2 {
+  font-family: 'Aglio Picasso', sans-serif; /* Fallback to sans-serif */
+  color: var(--color-y); /* Add default yellow color for h1/h2 */
+}
+
+/* Default button styling */
+button,
+.button-primary {
+  background-color: var(--color-y);
+  color: var(--color-0);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; /* Semi-bold for buttons */
+  padding: 0.65rem 1.75rem; /* Adjusted padding */
+  border-radius: 9999px; /* Fully rounded */
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: opacity 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.025em; /* Slight letter spacing */
+}
+
+button:hover,
+.button-primary:hover {
+  opacity: 0.85; /* Adjust hover opacity */
+}
