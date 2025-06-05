@@ -1,0 +1,61 @@
+---
+// src/components/Carousel.astro
+import "swiper/css";
+import "swiper/css/pagination";
+
+interface Props {
+  images: { src: string; alt: string }[];
+  class?: string;
+}
+
+const { images, class: className } = Astro.props;
+---
+
+<div class={`swiper-container ${className}`}>
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      {
+        images.map((image) => (
+          <div class="swiper-slide">
+            <img
+              src={image.src}
+              alt={image.alt}
+              class="w-full h-auto object-contain rounded-lg shadow-lg max-h-[400px] md:max-h-[500px]"
+              loading="lazy"
+              width="600"
+              height="600"
+            />
+          </div>
+        ))
+      }
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+<script>
+  import Swiper from "swiper";
+  import { Pagination } from "swiper/modules";
+  import "swiper/css";
+  import "swiper/css/pagination";
+
+  const swiper = new Swiper(".swiper", {
+    modules: [Pagination],
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
+</script>
+
+<style is:global>
+  .swiper-pagination-bullet {
+    background-color: var(--color-50);
+    opacity: 1;
+    transition: background-color 0.3s ease;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: var(--color-y);
+  }
+</style>

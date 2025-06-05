@@ -3,15 +3,42 @@ import Layout from "../layouts/Layout.astro";
 import Navigation from "../components/Navigation.astro";
 import SectionHero from "../components/SectionHero.astro";
 import Quote from "../components/Quote.astro";
-import SectionText from "../components/SectionText.astro";
 import SectionImgText from "../components/SectionImgText.astro";
+import SectionSwiperText from "../components/SectionSwiperText.astro";
 import SectionFAQ from "../components/SectionFAQ.astro";
 import LastCTA from "../components/LastCTA.astro";
 import Footer from "../components/Footer.astro";
 
 import joss1 from "../assets/images/joss1.jpg";
 import joss2 from "../assets/images/joss2.jpg";
-import joss3 from "../assets/images/card1.png";
+
+import testimonio0 from "../assets/images/testimonios/testimonio0.png";
+import testimonio1 from "../assets/images/testimonios/testimonio1.png";
+import testimonio2 from "../assets/images/testimonios/testimonio2.png";
+import testimonio3 from "../assets/images/testimonios/testimonio3.png";
+import testimonio4 from "../assets/images/testimonios/testimonio4.png";
+import testimonio5 from "../assets/images/testimonios/testimonio5.png";
+import testimonio6 from "../assets/images/testimonios/testimonio6.png";
+import testimonio7 from "../assets/images/testimonios/testimonio7.png";
+import testimonio8 from "../assets/images/testimonios/testimonio8.png";
+import testimonio9 from "../assets/images/testimonios/testimonio9.png";
+import testimonio10 from "../assets/images/testimonios/testimonio10.png";
+import testimonio11 from "../assets/images/testimonios/testimonio11.png";
+
+const testimoniosImages = [
+  { src: testimonio0.src, alt: "Testimonio 1" },
+  { src: testimonio1.src, alt: "Testimonio 2" },
+  { src: testimonio2.src, alt: "Testimonio 3" },
+  { src: testimonio3.src, alt: "Testimonio 4" },
+  { src: testimonio4.src, alt: "Testimonio 5" },
+  { src: testimonio5.src, alt: "Testimonio 6" },
+  { src: testimonio6.src, alt: "Testimonio 7" },
+  { src: testimonio7.src, alt: "Testimonio 8" },
+  { src: testimonio8.src, alt: "Testimonio 9" },
+  { src: testimonio9.src, alt: "Testimonio 10" },
+  { src: testimonio10.src, alt: "Testimonio 11" },
+  { src: testimonio11.src, alt: "Testimonio 12" },
+];
 
 // Placeholder text content - replace with your actual content
 const elMagoP1 =
@@ -70,16 +97,16 @@ const faqsData = [
   <main class="flex-grow">
     <SectionHero id="hero" />
 
-    <SectionText
+    <SectionImgText
       id="el-mago"
       title="El Mago"
-      imageSrc={joss1.src}
-      imageAlt="Joss Ortiz El Mago realizando un acto de magia"
-      imagePosition="left"
+      imgSrc={joss1.src}
+      imgAlt="Joss Ortiz El Mago realizando un acto de magia"
+      imgPosition="left"
     >
       <p>{elMagoP1}</p>
       <p>{elMagoP2}</p>
-    </SectionText>
+    </SectionImgText>
 
     <Quote
       id="quote1"
@@ -87,28 +114,26 @@ const faqsData = [
       author="Paco cachondo"
     />
 
-    <SectionText
+    <SectionImgText
       id="el-show"
       title="El Show"
-      imageSrc={joss2.src}
-      imageAlt="Joss Ortiz El Mago realizando un acto de magia"
-      imagePosition="right"
+      imgSrc={joss2.src}
+      imgAlt="Joss Ortiz El Mago realizando un acto de magia"
+      imgPosition="right"
     >
       <p>{elMagoP1}</p>
       <p>{elMagoP2}</p>
-    </SectionText>
+    </SectionImgText>
 
-    <SectionImgText
+    <SectionSwiperText
       id="opiniones"
       title="Lo que la gente opina del Show"
-      imgSrc={joss3.src}
-      imgAlt="Tarjetas con opiniones del show de magia"
+      images={testimoniosImages}
       imgPosition="left"
-      class="opiniones-image-custom-size"
     >
       <p>{opinionesP1}</p>
       <p>{opinionesP2}</p>
-    </SectionImgText>
+    </SectionSwiperText>
 
     <Quote
       id="quote2"
@@ -123,11 +148,3 @@ const faqsData = [
 
   <Footer slot="footer" />
 </Layout>
-
-<style>
-  .opiniones-image-custom-size img {
-    max-height: 100px !important;
-    margin: 20px auto;
-    display: block;
-  }
-</style>
