@@ -36,7 +36,7 @@ const navLinks = [
 ---
 
 <nav
-  class="bg-primary-0 px-6 py-4 w-full fixed top-0 left-0 right-0 z-50 border-b border-primary-25"
+  class="bg-primary-0 px-6 py-4 w-full fixed top-0 left-0 right-0 z-50 border-b border-primary-25 motion-preset-blur-down"
 >
   <div class="max-w-screen-xl mx-auto flex items-center justify-between">
     <!-- Desktop Navigation -->
@@ -118,10 +118,11 @@ const navLinks = [
   <!-- Navigation Links -->
   <div class="flex flex-col items-center space-y-6">
     {
-      navLinks.map((link) => (
+      navLinks.map((link, index) => (
         <a
           href={link.href}
-          class="font-aglio text-primary-y text-3xl hover:opacity-75 transition-opacity duration-150"
+          class={`font-aglio text-primary-y text-3xl hover:opacity-75 transition-opacity duration-150 nav-link-animate opacity-0 translate-x-8`}
+          data-delay={index * 100}
         >
           {link.text}
         </a>
@@ -132,10 +133,11 @@ const navLinks = [
   <!-- Social Media Icons (Bottom) -->
   <div class="absolute bottom-10 flex items-center space-x-6">
     {
-      socialLinks.map((link) => (
+      socialLinks.map((link, index) => (
         <a
           href={link.href}
-          class="text-primary-y hover:opacity-75 transition-opacity duration-150"
+          class="text-primary-y hover:opacity-75 transition-opacity duration-150 social-icon-animate opacity-0 translate-y-8"
+          data-delay={index * 100 + 400}
         >
           <link.icon class="h-8 w-8 fill-current" />
         </a>
@@ -164,14 +166,105 @@ const navLinks = [
         closeIcon.classList.remove("opacity-0", "pointer-events-none");
         closeIcon.classList.add("opacity-100");
         document.body.classList.add("overflow-hidden");
+
+        // Trigger staggered animations for navigation links
+        const navLinks = mobileMenu.querySelectorAll(".nav-link-animate");
+        navLinks.forEach((link, index) => {
+          const delay = parseInt(link.getAttribute("data-delay") || "0");
+          setTimeout(() => {
+            link.classList.remove("opacity-0", "translate-x-8");
+            link.classList.add(
+              "opacity-100",
+              "translate-x-0",
+              "transition-all",
+              "duration-500",
+              "ease-out"
+            );
+          }, delay);
+        });
+
+        // Trigger staggered animations for social media icons
+        const socialIcons = mobileMenu.querySelectorAll(".social-icon-animate");
+        socialIcons.forEach((icon, index) => {
+          const delay = parseInt(icon.getAttribute("data-delay") || "0");
+          setTimeout(() => {
+            icon.classList.remove("opacity-0", "translate-y-8");
+            icon.classList.add(
+              "opacity-100",
+              "translate-y-0",
+              "transition-all",
+              "duration-500",
+              "ease-out"
+            );
+          }, delay);
+        });
       } else {
-        mobileMenu.classList.add("opacity-0", "pointer-events-none");
-        mobileMenu.classList.remove("opacity-100", "pointer-events-auto");
-        hamburgerIcon.classList.remove("opacity-0", "pointer-events-none");
-        hamburgerIcon.classList.add("opacity-100");
-        closeIcon.classList.remove("opacity-100");
-        closeIcon.classList.add("opacity-0", "pointer-events-none");
-        document.body.classList.remove("overflow-hidden");
+        // Start reverse animations before closing menu
+        const navLinks = mobileMenu.querySelectorAll(".nav-link-animate");
+        const socialIcons = mobileMenu.querySelectorAll(".social-icon-animate");
+
+        // Animate social icons out first (reverse order)
+        socialIcons.forEach((icon, index) => {
+          const delay = index * 50; // Faster reverse animation
+          setTimeout(() => {
+            icon.classList.remove("opacity-100", "translate-y-0");
+            icon.classList.add(
+              "opacity-0",
+              "translate-y-8",
+              "transition-all",
+              "duration-300",
+              "ease-in"
+            );
+          }, delay);
+        });
+
+        // Then animate navigation links out
+        navLinks.forEach((link, index) => {
+          const delay = socialIcons.length * 50 + index * 50; // Start after social icons
+          setTimeout(() => {
+            link.classList.remove("opacity-100", "translate-x-0");
+            link.classList.add(
+              "opacity-0",
+              "translate-x-8",
+              "transition-all",
+              "duration-300",
+              "ease-in"
+            );
+          }, delay);
+        });
+
+        // Close menu overlay after all animations complete
+        const totalAnimationTime =
+          socialIcons.length * 50 + navLinks.length * 50 + 300; // +300ms for animation duration
+        setTimeout(() => {
+          mobileMenu.classList.add("opacity-0", "pointer-events-none");
+          mobileMenu.classList.remove("opacity-100", "pointer-events-auto");
+          hamburgerIcon.classList.remove("opacity-0", "pointer-events-none");
+          hamburgerIcon.classList.add("opacity-100");
+          closeIcon.classList.remove("opacity-100");
+          closeIcon.classList.add("opacity-0", "pointer-events-none");
+          document.body.classList.remove("overflow-hidden");
+
+          // Clean up all transition classes after menu is closed
+          navLinks.forEach((link) => {
+            link.classList.remove(
+              "transition-all",
+              "duration-300",
+              "ease-in",
+              "duration-500",
+              "ease-out"
+            );
+          });
+          socialIcons.forEach((icon) => {
+            icon.classList.remove(
+              "transition-all",
+              "duration-300",
+              "ease-in",
+              "duration-500",
+              "ease-out"
+            );
+          });
+        }, totalAnimationTime);
       }
     });
 
