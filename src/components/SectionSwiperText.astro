@@ -29,17 +29,19 @@ const imageOrderClass = imgPosition === "left" ? "md:order-1" : "md:order-2";
     >
       <div class={`md:w-1/2 ${textOrderClass}`}>
         <h2
-          class="text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 leading-tight font-aglio text-primary-y"
+          class="text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 leading-tight font-aglio text-primary-y motion-safe:intersect:motion-preset-blur-up intersect-once"
         >
           {title}
         </h2>
         <div
-          class="prose prose-lg prose-invert max-w-none text-primary-100 font-inter leading-relaxed space-y-6"
+          class="prose prose-lg prose-invert max-w-none text-primary-100 font-inter leading-relaxed space-y-6 motion-safe:intersect:motion-preset-blur-up motion-delay-200 intersect-once"
         >
           <slot />
         </div>
       </div>
-      <div class={`w-full md:w-1/2 flex-shrink-0 ${imageOrderClass}`}>
+      <div
+        class={`w-full md:w-1/2 flex-shrink-0 ${imageOrderClass} motion-safe:intersect:motion-preset-blur-up motion-delay-400 intersect-once`}
+      >
         <Carousel images={images} />
       </div>
     </div>

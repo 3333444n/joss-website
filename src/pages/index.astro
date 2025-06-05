@@ -46,6 +46,8 @@ const elMagoP1 =
 const elMagoP2 =
   "Desde elegantes eventos corporativos hasta celebraciones privadas íntimas, Joss adapta su magia para crear el ambiente perfecto, dejando una estela de sonrisas, sorpresa y la eterna pregunta: ¿cómo lo hizo?";
 
+const elMagoContent = `<p>${elMagoP1}</p><p>${elMagoP2}</p>`;
+
 const opinionesP1 =
   "La magia de Joss no solo engaña a los ojos, sino que también toca el corazón. Cada acto está imbuido de una pasión y un carisma que envuelven al espectador, llevándolo a un mundo donde lo imposible se vuelve realidad por un instante.";
 const opinionesP2 =
@@ -103,10 +105,8 @@ const faqsData = [
       imgSrc={joss1.src}
       imgAlt="Joss Ortiz El Mago realizando un acto de magia"
       imgPosition="left"
-    >
-      <p>{elMagoP1}</p>
-      <p>{elMagoP2}</p>
-    </SectionImgText>
+      content={elMagoContent}
+    />
 
     <Quote
       id="quote1"
@@ -120,10 +120,8 @@ const faqsData = [
       imgSrc={joss2.src}
       imgAlt="Joss Ortiz El Mago realizando un acto de magia"
       imgPosition="right"
-    >
-      <p>{elMagoP1}</p>
-      <p>{elMagoP2}</p>
-    </SectionImgText>
+      content={elMagoContent}
+    />
 
     <SectionSwiperText
       id="opiniones"
@@ -148,3 +146,10 @@ const faqsData = [
 
   <Footer slot="footer" />
 </Layout>
+
+<script>
+  import { Observer } from "tailwindcss-intersect";
+  console.log("Starting Intersection Observer...");
+  Observer.start();
+  console.log("Intersection Observer started.");
+</script>

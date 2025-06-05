@@ -1,26 +1,44 @@
 ---
 // FAQ component - individual question/answer pair
-import type { HTMLAttributes } from 'astro/types';
+import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<'details'> {
+interface Props extends HTMLAttributes<"details"> {
   question: string;
   isLast?: boolean; // To conditionally avoid bottom border on the last item if needed
 }
 
 const { question, isLast = false, ...attrs } = Astro.props;
 ---
-<details class={[
-  "group",
-  "border-primary-25",
-  !isLast && "border-b" // Add bottom border unless it's the last item
-  ]} 
+
+<details
+  class:list={[
+    "group",
+    "border-primary-25",
+    !isLast && "border-b", // Add bottom border unless it's the last item
+    "motion-safe:intersect:motion-preset-blur-up",
+    "intersect-once",
+  ]}
   {...attrs}
 >
-  <summary class="font-medium text-lg md:text-xl text-primary-100 py-5 cursor-pointer list-none flex justify-between items-center hover:text-primary-y transition-colors">
+  <summary
+    class="font-medium text-lg md:text-xl text-primary-100 py-5 cursor-pointer list-none flex justify-between items-center hover:text-primary-y transition-colors"
+  >
     {question}
-    <span class="text-primary-y transform transition-transform duration-300 group-open:rotate-45 ml-4 flex-shrink-0">
+    <span
+      class="text-primary-y transform transition-transform duration-300 group-open:rotate-45 ml-4 flex-shrink-0"
+    >
       {/* Using a simple plus/cross for now, replace with SVG if desired */}
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <line x1="12" y1="5" x2="12" y2="19"></line>
         <line x1="5" y1="12" x2="19" y2="12"></line>
       </svg>
