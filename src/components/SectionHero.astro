@@ -25,6 +25,7 @@ const {
 >
   <div class="py-12 md:py-16">
     <h1
+      id="hero-title"
       class="text-7xl sm:text-8xl md:text-9xl lg:text-[160px] xl:text-[200px] font-aglio leading-none tracking-tight motion-preset-focus motion-delay-[400ms]"
     >
       JOSS<br />ORTIZ
@@ -39,3 +40,16 @@ const {
     </a>
   </div>
 </section>
+
+<script>
+  // Trigger hero animation after fonts are loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    const heroTitle = document.getElementById("hero-title");
+    if (heroTitle) {
+      // Small timeout to ensure fonts are loaded
+      setTimeout(() => {
+        heroTitle.classList.add("motion-preset-focus-active");
+      }, 100);
+    }
+  });
+</script>

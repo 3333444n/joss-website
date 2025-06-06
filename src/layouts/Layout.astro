@@ -10,7 +10,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth no-js">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -28,6 +28,10 @@ const { title } = Astro.props;
       crossorigin
     />
     <title>{title}</title>
+    <script>
+      // Remove no-js class when JavaScript is available
+      document.documentElement.classList.remove("no-js");
+    </script>
   </head>
   <body
     class="bg-primary-0 text-primary-100 min-h-screen flex flex-col antialiased"
