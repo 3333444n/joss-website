@@ -45,17 +45,19 @@ const { images, class: className } = Astro.props;
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
+      bulletClass: "swiper-pagination-bullet",
+      bulletActiveClass: "swiper-pagination-bullet-active",
     },
   });
 </script>
 
 <style is:global>
   .swiper-pagination-bullet {
-    background-color: var(--color-50);
-    opacity: 1;
+    background-color: #898989 !important;
+    opacity: 1 !important;
     transition: background-color 0.3s ease;
   }
   .swiper-pagination-bullet-active {
-    background-color: var(--color-y);
+    background-color: #ffb830 !important;
   }
 </style>

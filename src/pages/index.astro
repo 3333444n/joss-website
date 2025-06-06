@@ -41,13 +41,22 @@ const testimoniosImages = [
 ];
 
 // Placeholder text content - replace with your actual content
-const elMagoP1 =
-  "Joss Ortiz es un ilusionista contemporáneo que convierte la magia en arte, creando atmósferas únicas para eventos que buscan dejar una huella imborrable. Su propuesta se basa en ofrecer un servicio exclusivo, de alta calidad, profesional y emocionalmente impactante. Su enfoque minimalista, elegante y sofisticado lo posiciona como un referente del sector, brindando experiencias únicas que generan conexión, emoción y recuerdos memorables.";
-const elMagoP2 =
-  "Desde elegantes eventos corporativos hasta celebraciones privadas íntimas, Joss adapta su magia para crear el ambiente perfecto, dejando una estela de sonrisas, sorpresa y la eterna pregunta: ¿cómo lo hizo?";
+const elMagoContent = `
+<p>JOSS ORTIZ es un artista de la ilusión que transforma lo imposible en una experiencia visual elegante y cautivadora. Desde pequeño, sintió una conexión especial con el misterio, el asombro y el poder de sorprender sin palabras.</p>
 
-const elMagoContent = `<p>${elMagoP1}</p><p>${elMagoP2}</p>`;
+<p>Todo comenzó a los seis años, como asistente en los espectáculos familiares de su hermano Mau. Esas primeras experiencias despertaron en él una pasión que pronto lo llevó a adquirir sus primeros trucos en las emblemáticas tiendas del Mago Frank y del Mago Chama.</p>
 
+<p>A los nueve años presentó su primer espectáculo profesional, marcando el inicio de una carrera dedicada al arte de la ilusión. Entre los diez y doce años, profundizó su formación con Jack el Duende y asistió a importantes congresos internacionales organizados por Chen-Kai, conociendo a reconocidos magos como Juan Tamariz, René Lavand y David Stone.</p>
+
+<p>Su marca nace del deseo de llevar la magia más allá de lo posible: convertir cada presentación en un momento que rompe la lógica, emociona y deja huella. Para Joss, la magia no es solo entretenimiento: es arte, es presencia, es experiencia.</p>
+`;
+const elShowContent = `
+<p>Cada presentación de Joss es una experiencia cuidadosamente orquestada donde la elegancia se encuentra con lo imposible. Su espectáculo combina magia de cerca íntima con grandes ilusiones que desafían la percepción, creando momentos de asombro genuino que permanecen en la memoria mucho después de que termine la última ovación.</p>
+
+<p>Con una presencia escénica natural y un timing impecable, Joss guía a su audiencia a través de un viaje emocional donde la sorpresa, la risa y el misterio se entrelazan magistralmente. Su capacidad para conectar con personas de todas las edades hace que cada show sea único, adaptándose al momento y al ambiente de manera orgánica.</p>
+
+<p>Desde manipulación de cartas que parece desafiar las leyes de la física, hasta mentalismo que explora los límites de la mente humana, cada acto está diseñado para generar esa pausa mágica donde el mundo se detiene y solo existe el asombro. El show de Joss no es solo entretenimiento: es una invitación a redescubrir la capacidad de maravillarse.</p>
+`;
 const opinionesP1 =
   "La magia de Joss no solo engaña a los ojos, sino que también toca el corazón. Cada acto está imbuido de una pasión y un carisma que envuelven al espectador, llevándolo a un mundo donde lo imposible se vuelve realidad por un instante.";
 const opinionesP2 =
@@ -120,7 +129,7 @@ const faqsData = [
       imgSrc={joss2.src}
       imgAlt="Joss Ortiz El Mago realizando un acto de magia"
       imgPosition="right"
-      content={elMagoContent}
+      content={elShowContent}
     />
 
     <SectionSwiperText
