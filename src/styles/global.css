@@ -48,57 +48,26 @@ h2 {
   color: var(--color-y); /* Add default yellow color for h1/h2 */
 }
 
-/* Prevent Flash of Animated Content (FOAC) */
-/* Override tailwindcss-motion to ensure elements start hidden */
+/* Prevent Flash of Animated Content (FOAC) - Gentle approach */
+/* Only hide hero title initially, let intersection observer handle the rest */
 
-/* All intersection-triggered blur-up animations start hidden */
-[class*="motion-safe:intersect:motion-preset-blur-up"]:not(.intersect) {
-  opacity: 0 !important;
-  transform: translateY(2rem) !important;
-}
-
-/* When intersecting, animate to visible state */
-[class*="motion-safe:intersect:motion-preset-blur-up"].intersect {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-/* Handle different motion delays */
-[class*="motion-delay-200"].intersect {
-  transition-delay: 200ms;
-}
-
-[class*="motion-delay-400"].intersect {
-  transition-delay: 400ms;
-}
-
-[class*="motion-delay-[500ms]"].intersect {
-  transition-delay: 500ms;
-}
-
-[class*="motion-delay-[600ms]"].intersect {
-  transition-delay: 600ms;
-}
-
-/* Hero focus animation should also start hidden */
-.motion-preset-focus:not(.motion-preset-focus-active) {
-  opacity: 0 !important;
-  transform: scale(0.95) !important;
+/* Hero focus animation should start hidden */
+#hero-title.motion-preset-focus:not(.motion-preset-focus-active) {
+  opacity: 0;
+  transform: scale(0.95);
 }
 
 /* Add a class that gets applied when the hero animation should run */
-.motion-preset-focus.motion-preset-focus-active {
-  opacity: 1 !important;
-  transform: scale(1) !important;
+#hero-title.motion-preset-focus.motion-preset-focus-active {
+  opacity: 1;
+  transform: scale(1);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   transition-delay: 400ms;
 }
 
 /* Ensure reduced motion users see content immediately */
 @media (prefers-reduced-motion: reduce) {
-  [class*="motion-safe:intersect:motion-preset-blur-up"],
-  .motion-preset-focus {
+  #hero-title.motion-preset-focus {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -106,10 +75,23 @@ h2 {
 }
 
 /* Fallback for JavaScript disabled */
-.no-js [class*="motion-safe:intersect:motion-preset-blur-up"],
-.no-js .motion-preset-focus {
+.no-js #hero-title.motion-preset-focus {
   opacity: 1 !important;
   transform: none !important;
+}
+
+/* Gentle FOAC prevention for scroll animations */
+/* Add initial transform to prevent flash, let tailwindcss-intersect handle the rest */
+.motion-safe\:intersect\:motion-preset-blur-up {
+  transform: translateY(1rem);
+  opacity: 0.8;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+/* When the library adds intersect class, show fully */
+.motion-safe\:intersect\:motion-preset-blur-up.intersect {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 /* Default button styling */
