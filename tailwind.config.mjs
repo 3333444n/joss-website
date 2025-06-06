@@ -21,7 +21,7 @@ export default {
       },
       fontFamily: {
         'sans': ['Inter', 'sans-serif'], // Set Inter as the default sans-serif
-        'aglio': ['Aglio Picasso', 'sans-serif'],
+        'aglio': ['Aglio Picasso', 'Georgia', 'Times New Roman', 'serif'],
         'inter': ['Inter', 'sans-serif']
       }
     },

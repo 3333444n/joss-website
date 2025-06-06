@@ -23,7 +23,7 @@
   src: url('../assets/fonts/aglio-picasso.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -44,7 +44,7 @@ body {
 
 h1,
 h2 {
-  font-family: 'Aglio Picasso', sans-serif; /* Fallback to sans-serif */
+  font-family: 'Aglio Picasso', Georgia, 'Times New Roman', serif; /* Better fallback for display font */
   color: var(--color-y); /* Add default yellow color for h1/h2 */
 }
 
