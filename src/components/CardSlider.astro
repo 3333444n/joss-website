@@ -65,13 +65,16 @@ const { images } = Astro.props;
   document.addEventListener("DOMContentLoaded", function () {
     const cards = document.querySelectorAll<HTMLElement>("[data-card]");
     const container = document.querySelector(
-      ".relative.w-80.h-80"
+      ".relative.w-64.h-80, .relative.w-80.h-80"
     ) as HTMLElement;
     let currentIndex = 0;
     let isDragging = false;
     let startX = 0;
     let currentX = 0;
     let dragOffset = 0;
+
+    // Apply initial blur and scaling effects
+    updateSlider(0);
 
     function updateSlider(newIndex: number, dragProgress: number = 0): void {
       // Clamp the index to valid range
@@ -198,17 +201,29 @@ const { images } = Astro.props;
       handleEnd();
     });
 
-    // Touch events
-    container?.addEventListener("touchstart", (e) => {
-      handleStart(e.touches[0].clientX);
-    });
+    // Touch events - also bind to document for better mobile support
+    const touchTarget = container || document.body;
 
-    container?.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      handleMove(e.touches[0].clientX);
-    });
+    touchTarget.addEventListener(
+      "touchstart",
+      (e) => {
+        handleStart(e.touches[0].clientX);
+      },
+      { passive: false }
+    );
 
-    container?.addEventListener("touchend", () => {
+    document.addEventListener(
+      "touchmove",
+      (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          handleMove(e.touches[0].clientX);
+        }
+      },
+      { passive: false }
+    );
+
+    document.addEventListener("touchend", () => {
       handleEnd();
     });
 
