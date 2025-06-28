@@ -2,11 +2,13 @@
 import FacebookIcon from "../assets/icons/logo-facebook.svg";
 import InstagramIcon from "../assets/icons/logo-instagram.svg";
 import TiktokIcon from "../assets/icons/logo-tiktok.svg";
+import WhatsappIcon from "../assets/icons/logo-whatsapp.svg";
 
 const socialLinks = {
   facebook: "https://www.facebook.com/JossModoilusion",
   instagram: "https://www.instagram.com/jossortricks/",
   tiktok: "https://www.tiktok.com/@jossortricks",
+  whatsapp: "https://wa.me/message/TY7H3W7U5TJ7H1",
 };
 
 const yearForCopyright = 2025; // As per the design image
@@ -47,6 +49,15 @@ const yearForCopyright = 2025; // As per the design image
         class="transition-opacity duration-300 hover:opacity-75"
       >
         <TiktokIcon class="w-7 h-7 fill-primary-y" />
+      </a>
+      <a
+        href={socialLinks.whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Whatsapp"
+        class="transition-opacity duration-300 hover:opacity-75"
+      >
+        <WhatsappIcon class="w-7 h-7 fill-primary-y" />
       </a>
     </div>
 
