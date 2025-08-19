@@ -1,25 +1,51 @@
 ---
 import "../styles/global.css";
 import aglioFont from "../assets/fonts/aglio-picasso.otf";
+import joss1 from "../assets/images/joss1.webp";
 
 export interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+const siteUrl = Astro.site || "https://jossortiz.com";
+const ogImage = new URL(joss1.src, siteUrl).href;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth no-js">
+<html lang="es" class="scroll-smooth no-js">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="description"
-      content="Joss the Magician - Official Website. Experience the unbelievable!"
+      content="Transforma tu evento privado en una experiencia inolvidable"
     />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Transforma tu evento privado en una experiencia inolvidable" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_MX" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={siteUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content="Transforma tu evento privado en una experiencia inolvidable" />
+    <meta property="twitter:image" content={ogImage} />
+    
+    <!-- Additional Meta Tags -->
+    <meta name="keywords" content="mago profesional, espectáculos de magia, ilusionista, eventos corporativos, bodas, magia México" />
+    <meta name="author" content="Joss Ortiz" />
+    <link rel="canonical" href={siteUrl} />
+    
     <link
       rel="preload"
       href={aglioFont}
