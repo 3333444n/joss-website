@@ -1,14 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <defs>
-    <style>
-      .logo-bg { fill: #1a1a1a; }
-      .logo-text { fill: #f4d03f; font-family: serif; font-weight: bold; font-size: 24px; }
-      @media (prefers-color-scheme: dark) {
-        .logo-bg { fill: #f4d03f; }
-        .logo-text { fill: #1a1a1a; }
-      }
-    </style>
-  </defs>
-  <rect class="logo-bg" width="32" height="32" rx="4"/>
-  <text class="logo-text" x="16" y="22" text-anchor="middle">J</text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
+    <defs>
+        <style>
+            .logo { 
+                filter: brightness(0) saturate(100%) invert(78%) sepia(96%) saturate(445%) hue-rotate(358deg) brightness(101%) contrast(94%);
+            }
+            @media (prefers-color-scheme: dark) {
+                .logo { 
+                    filter: brightness(0) saturate(100%) invert(78%) sepia(96%) saturate(445%) hue-rotate(358deg) brightness(101%) contrast(94%);
+                }
+            }
+        </style>
+    </defs>
+    <image class="logo" href="/favicon.png" width="32" height="32"/>
 </svg>
