@@ -2,13 +2,15 @@
 import "../styles/global.css";
 import aglioFont from "../assets/fonts/aglio-picasso.otf";
 
+import joss2 from "../assets/images/joss2.webp";
+
 export interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
 const siteUrl = Astro.site || "https://jossortiz.com";
-const ogImage = new URL("../public/images/joss1.jpg", siteUrl).href;
+const ogImage = new URL(joss2.src, siteUrl).href;
 ---
 
 <!doctype html>
