@@ -80,10 +80,17 @@ const yearForCopyright = 2025; // As per the design image
   // Add this to your page or in a <script> tag
   const magicLink = document.getElementById("magic-link");
   if (magicLink) {
-    magicLink.addEventListener("click", () => {
+    const handleMagicClick = () => {
       const href = magicLink.getAttribute("data-href");
-      if (href) window.location.href = href;
-    });
+      if (href) {
+        setTimeout(() => {
+          window.location.href = href;
+        }, 20000);
+      }
+    };
+
+    magicLink.addEventListener("click", handleMagicClick);
+    magicLink.addEventListener("touchend", handleMagicClick);
   }
 </script>
 
