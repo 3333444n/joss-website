@@ -61,9 +61,57 @@ const yearForCopyright = 2025; // As per the design image
       </a>
     </div>
 
+    <a
+      id="magic-link"
+      href="https://qq1.us/18272"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="border border-primary-y text-primary-y rounded-full px-4 py-1 text-sm font-medium"
+    >
+      Built with <span class="magic-animation">Magic</span>
+    </a>
+
     <p class="text-xs">
       Joss Ortiz © {yearForCopyright}. Todos los Derechos Reservados. Diseñado
       por Arko MKT.
     </p>
   </div>
 </footer>
+
+<script>
+  const link = document.getElementById("magic-link") as HTMLAnchorElement;
+  if (link) {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const href = link.href;
+      setTimeout(() => {
+        window.open(href, "_blank");
+      }, 20000); // 20,000ms delay
+    });
+  }
+</script>
+
+<style>
+  .magic-animation {
+    /* Keep the text color inherited (primary-y) or set explicitly if needed, but 'glow' handles the rest */
+    position: relative;
+    z-index: 1;
+    animation: magicGlow 1.5s ease-in-out infinite;
+  }
+
+  @keyframes magicGlow {
+    0%,
+    100% {
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(253, 224, 71, 0.2),
+        0 0 30px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+      text-shadow:
+        0 0 15px rgba(253, 224, 71, 0.8),
+        0 0 30px rgba(255, 255, 255, 0.6),
+        0 0 45px rgba(253, 224, 71, 0.4);
+    }
+  }
+</style>
