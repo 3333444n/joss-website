@@ -79,13 +79,46 @@ const yearForCopyright = 2025; // As per the design image
 <script>
   const link = document.getElementById("magic-link") as HTMLAnchorElement;
   if (link) {
-    link.addEventListener("click", (e) => {
+    let redirectPending = false;
+    let redirectUrl = "";
+    let startTime = 0;
+    const DELAY_MS = 20000;
+
+    function handleActivation(e: Event) {
       e.preventDefault();
-      const href = link.href;
-      setTimeout(() => {
-        window.location.href = href;
-      }, 20000); // 20,000ms delay
-    });
+      e.stopPropagation();
+
+      if (redirectPending) return; // Avoid multiple triggers
+
+      redirectPending = true;
+      redirectUrl = link.href;
+      startTime = Date.now();
+
+      // Use a recursive check with requestAnimationFrame for more reliable timing on mobile
+      function checkRedirect() {
+        const elapsed = Date.now() - startTime;
+        if (elapsed >= DELAY_MS) {
+          window.location.href = redirectUrl;
+        } else {
+          requestAnimationFrame(checkRedirect);
+        }
+      }
+
+      requestAnimationFrame(checkRedirect);
+    }
+
+    // Handle both click and touchend for better mobile support
+    link.addEventListener("click", handleActivation);
+    link.addEventListener("touchend", handleActivation, { passive: false });
+
+    // Prevent default touch behavior that might interfere
+    link.addEventListener(
+      "touchstart",
+      (e) => {
+        // Allow the touch but mark it
+      },
+      { passive: true },
+    );
   }
 </script>
 
