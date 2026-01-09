@@ -5,7 +5,7 @@ interface Props {
   class?: string;
   ctaLink?: string;
   ctaText?: string;
-  vimeoVideoId?: string;
+  youtubeVideoId?: string;
 }
 
 const {
@@ -13,7 +13,7 @@ const {
   class: className,
   ctaLink = "https://wa.me/message/TY7H3W7U5TJ7H1",
   ctaText = "Cotiza tu evento",
-  vimeoVideoId = "1152982970", // Joss Ortiz showreel video
+  youtubeVideoId = "q46rUWCapus", // Joss Ortiz showreel video (YouTube)
 } = Astro.props;
 
 // Video sources from Cloudinary
@@ -36,7 +36,7 @@ const videoSources = {
     className,
   ]}
   aria-label="Hero section - Click to play full video"
-  data-vimeo-id={vimeoVideoId}
+  data-youtube-id={youtubeVideoId}
 >
   <!-- Background Video -->
   <video
@@ -191,7 +191,7 @@ const videoSources = {
     width: 20px;
     height: 20px;
     color: #000;
-    margin-left: 3px; /* Optical centering for play icon */
+    margin-left: 0; /* Removed optical centering that was causing asymmetry */
   }
 
   .hero-section:hover .play-indicator {
@@ -336,15 +336,15 @@ const videoSources = {
     }
 
     .video-modal-close {
-      top: -50px;
+      top: -40px;
       right: 0;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
     }
 
     .video-modal-close svg {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
     }
   }
 
@@ -502,23 +502,23 @@ const videoSources = {
 
     let lastFocusedElement: HTMLElement | null = null;
 
-    const getVimeoId = () => heroSection?.dataset.vimeoId || "123456789";
+    const getYoutubeId = () => heroSection?.dataset.youtubeId || "q46rUWCapus";
 
     const openModal = () => {
       if (!modal || !iframeContainer) return;
 
       lastFocusedElement = document.activeElement as HTMLElement;
 
-      // Inject Vimeo iframe
-      const vimeoId = getVimeoId();
+      // Inject YouTube iframe
+      const videoId = getYoutubeId();
       iframeContainer.innerHTML = `
         <iframe
-          src="https://player.vimeo.com/video/${vimeoId}?autoplay=1&title=0&byline=0&portrait=0"
+          src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
           style="position:absolute;top:0;left:0;width:100%;height:100%;"
           width="100%"
           height="100%"
           frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
           title="Video player"
         ></iframe>
