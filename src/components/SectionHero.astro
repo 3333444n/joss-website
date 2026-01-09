@@ -1,29 +1,71 @@
 ---
-// SectionHero component
-// Props are not strictly needed for this specific design but kept for potential future flexibility if desired.
+// SectionHero component with video background and click-to-play modal
 interface Props {
   id?: string;
   class?: string;
-  ctaLink?: string; // Prop for button link if desired for more flexibility
-  ctaText?: string; // Prop for button text if desired
+  ctaLink?: string;
+  ctaText?: string;
+  vimeoVideoId?: string;
 }
 
 const {
   id,
   class: className,
-  ctaLink = "https://wa.me/message/TY7H3W7U5TJ7H1", // Default link to LastCTA section
-  ctaText = "Cotiza tu evento", // Default button text
+  ctaLink = "https://wa.me/message/TY7H3W7U5TJ7H1",
+  ctaText = "Cotiza tu evento",
+  vimeoVideoId = "123456789", // Placeholder - will be updated with actual Vimeo video ID
 } = Astro.props;
+
+// Video sources from Cloudinary
+const videoSources = {
+  mp4_1080:
+    "https://res.cloudinary.com/dpbnzuzeg/video/upload/v1767981099/hero-1080p_jnb8mo.mp4",
+  mp4_720:
+    "https://res.cloudinary.com/dpbnzuzeg/video/upload/v1767981089/hero-720p_hsid8o.mp4",
+  webm_1080:
+    "https://res.cloudinary.com/dpbnzuzeg/video/upload/v1767981096/hero-1080p_locgdo.webm",
+  webm_720:
+    "https://res.cloudinary.com/dpbnzuzeg/video/upload/v1767981089/hero-720p_dtb4py.webm",
+};
 ---
 
 <section
   id={id || "hero"}
   class:list={[
-    "min-h-screen flex flex-col items-center justify-center text-center bg-primary-0 text-primary-100 px-4",
+    "hero-section min-h-screen flex flex-col items-center justify-center text-center bg-primary-0 text-primary-100 px-4 relative overflow-hidden cursor-pointer",
     className,
   ]}
+  aria-label="Hero section - Click to play full video"
+  data-vimeo-id={vimeoVideoId}
 >
-  <div class="py-12 md:py-16">
+  <!-- Background Video -->
+  <video
+    id="hero-video"
+    class="hero-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="/images/hero-poster.jpg"
+  >
+    <!-- Default sources (720p) - JavaScript will upgrade to 1080p on desktop -->
+    <source src={videoSources.webm_720} type="video/webm" />
+    <source src={videoSources.mp4_720} type="video/mp4" />
+  </video>
+
+  <!-- Video source URLs for JavaScript to access -->
+  <script
+    id="hero-video-sources"
+    type="application/json"
+    set:html={JSON.stringify(videoSources)}
+  />
+
+  <!-- Dark Overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Hero Content -->
+  <div class="hero-content relative z-10 py-12 md:py-16">
     <h1
       id="hero-title"
       class="text-7xl sm:text-8xl md:text-9xl lg:text-[160px] xl:text-[200px] font-aglio leading-none tracking-tight motion-preset-focus motion-delay-[400ms]"
@@ -31,25 +73,499 @@ const {
       JOSS<br />ORTIZ
     </h1>
   </div>
-  <div class="mt-4 md:mt-8 pb-12 md:pb-16">
+  <div class="hero-content relative z-10 mt-4 md:mt-8 pb-12 md:pb-16">
     <a
       href={ctaLink}
-      class="button-primary text-lg md:text-xl motion-safe:intersect:motion-preset-blur-up motion-delay-[600ms] intersect-once"
+      class="button-primary hero-cta text-lg md:text-xl motion-safe:intersect:motion-preset-blur-up motion-delay-[600ms] intersect-once"
     >
       {ctaText}
     </a>
   </div>
+
+  <!-- Play Indicator -->
+  <div class="play-indicator" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8 5.14v14.72a.5.5 0 0 0 .757.429l11.514-7.36a.5.5 0 0 0 0-.858L8.757 4.71A.5.5 0 0 0 8 5.14z"
+      ></path>
+    </svg>
+  </div>
 </section>
 
+<!-- Video Modal -->
+<div
+  id="video-modal"
+  class="video-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="video-modal-title"
+  hidden
+>
+  <div class="video-modal-backdrop"></div>
+  <div class="video-modal-content">
+    <h2 id="video-modal-title" class="sr-only">Video Player</h2>
+    <button
+      id="video-modal-close"
+      class="video-modal-close"
+      aria-label="Close video"
+      type="button"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="video-modal-iframe-container">
+      <!-- Vimeo iframe will be injected here when modal opens -->
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Hero Video Background */
+  .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  /* Static poster for reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video {
+      display: none;
+    }
+
+    .hero-section {
+      background-image: url("/images/hero-poster.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+  /* Dark Overlay for text readability */
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1;
+  }
+
+  /* Play Indicator */
+  .play-indicator {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 184, 48, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    animation: pulse-glow 2s ease-in-out infinite;
+    transition:
+      transform 0.3s ease,
+      background 0.3s ease;
+  }
+
+  .play-indicator svg {
+    width: 20px;
+    height: 20px;
+    color: #000;
+    margin-left: 3px; /* Optical centering for play icon */
+  }
+
+  .hero-section:hover .play-indicator {
+    transform: scale(1.1);
+    background: rgba(255, 184, 48, 1);
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 184, 48, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 20px 8px rgba(255, 184, 48, 0.3);
+    }
+  }
+
+  /* Hide play indicator for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .play-indicator {
+      animation: none;
+    }
+  }
+
+  /* Responsive play indicator */
+  @media (max-width: 768px) {
+    .play-indicator {
+      bottom: 1rem;
+      right: 1rem;
+      width: 40px;
+      height: 40px;
+    }
+
+    .play-indicator svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  /* Video Modal */
+  .video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-modal[hidden] {
+    display: none;
+  }
+
+  .video-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  .video-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    z-index: 1;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color 0.3s ease,
+      background 0.3s ease;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .video-modal-close:hover,
+  .video-modal-close:focus {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    outline: none;
+  }
+
+  .video-modal-close:focus-visible {
+    outline: 2px solid var(--color-y);
+    outline-offset: 2px;
+  }
+
+  .video-modal-close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .video-modal-iframe-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .video-modal-iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Screen reader only class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
 <script>
-  // Trigger hero animation after fonts are loaded
+  // Hero Video Background & Modal functionality
   document.addEventListener("DOMContentLoaded", () => {
+    // =====================
+    // Hero Animation
+    // =====================
     const heroTitle = document.getElementById("hero-title");
     if (heroTitle) {
-      // Small timeout to ensure fonts are loaded
       setTimeout(() => {
         heroTitle.classList.add("motion-preset-focus-active");
       }, 100);
     }
+
+    // =====================
+    // Responsive Video Source Selection
+    // =====================
+    const video = document.getElementById("hero-video") as HTMLVideoElement;
+    const videoSourcesScript = document.getElementById("hero-video-sources");
+
+    if (video && videoSourcesScript) {
+      // Parse video sources from JSON
+      const sources = JSON.parse(videoSourcesScript.textContent || "{}") as {
+        mp4_1080: string;
+        mp4_720: string;
+        webm_1080: string;
+        webm_720: string;
+      };
+
+      // Function to upgrade to 1080p on desktop
+      const upgradeToHD = () => {
+        const isDesktop = window.matchMedia("(min-width: 769px)").matches;
+
+        if (!isDesktop) {
+          // Already using 720p from HTML, no need to change
+          return;
+        }
+
+        // Check WebM support
+        const supportsWebM =
+          video.canPlayType('video/webm; codecs="vp8, vorbis"') !== "" ||
+          video.canPlayType('video/webm; codecs="vp9"') !== "";
+
+        // Clear existing sources
+        video.innerHTML = "";
+
+        // Add 1080p sources
+        if (supportsWebM && sources.webm_1080) {
+          const webmSource = document.createElement("source");
+          webmSource.src = sources.webm_1080;
+          webmSource.type = "video/webm";
+          video.appendChild(webmSource);
+        }
+
+        if (sources.mp4_1080) {
+          const mp4Source = document.createElement("source");
+          mp4Source.src = sources.mp4_1080;
+          mp4Source.type = "video/mp4";
+          video.appendChild(mp4Source);
+        }
+
+        // Reload video with new sources
+        video.load();
+
+        // Attempt to play
+        video.play().catch(() => {
+          // Autoplay blocked, video will show poster
+        });
+      };
+
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (!prefersReducedMotion) {
+        // Upgrade to 1080p on desktop after a small delay to let 720p start loading
+        setTimeout(upgradeToHD, 100);
+
+        // Handle resize (debounced) - in case user resizes window
+        let resizeTimeout: ReturnType<typeof setTimeout>;
+        let currentIsDesktop = window.matchMedia("(min-width: 769px)").matches;
+
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            const newIsDesktop =
+              window.matchMedia("(min-width: 769px)").matches;
+            if (newIsDesktop !== currentIsDesktop) {
+              currentIsDesktop = newIsDesktop;
+              // Reload with appropriate resolution
+              video.innerHTML = "";
+
+              const supportsWebM =
+                video.canPlayType('video/webm; codecs="vp8, vorbis"') !== "" ||
+                video.canPlayType('video/webm; codecs="vp9"') !== "";
+
+              const webmSrc = newIsDesktop
+                ? sources.webm_1080
+                : sources.webm_720;
+              const mp4Src = newIsDesktop ? sources.mp4_1080 : sources.mp4_720;
+
+              if (supportsWebM && webmSrc) {
+                const webmSource = document.createElement("source");
+                webmSource.src = webmSrc;
+                webmSource.type = "video/webm";
+                video.appendChild(webmSource);
+              }
+
+              if (mp4Src) {
+                const mp4Source = document.createElement("source");
+                mp4Source.src = mp4Src;
+                mp4Source.type = "video/mp4";
+                video.appendChild(mp4Source);
+              }
+
+              video.load();
+              video.play().catch(() => {});
+            }
+          }, 250);
+        });
+      }
+    }
+
+    // =====================
+    // Modal Functionality
+    // =====================
+    const heroSection = document.querySelector(".hero-section") as HTMLElement;
+    const modal = document.getElementById("video-modal") as HTMLElement;
+    const closeBtn = document.getElementById(
+      "video-modal-close",
+    ) as HTMLButtonElement;
+    const iframeContainer = modal?.querySelector(
+      ".video-modal-iframe-container",
+    ) as HTMLElement;
+    const backdrop = modal?.querySelector(
+      ".video-modal-backdrop",
+    ) as HTMLElement;
+
+    let lastFocusedElement: HTMLElement | null = null;
+
+    const getVimeoId = () => heroSection?.dataset.vimeoId || "123456789";
+
+    const openModal = () => {
+      if (!modal || !iframeContainer) return;
+
+      lastFocusedElement = document.activeElement as HTMLElement;
+
+      // Inject Vimeo iframe
+      const vimeoId = getVimeoId();
+      iframeContainer.innerHTML = `
+        <iframe
+          src="https://player.vimeo.com/video/${vimeoId}?autoplay=1&title=0&byline=0&portrait=0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          title="Video player"
+        ></iframe>
+      `;
+
+      // Show modal
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+
+      // Focus close button
+      setTimeout(() => closeBtn?.focus(), 100);
+    };
+
+    const closeModal = () => {
+      if (!modal || !iframeContainer) return;
+
+      // Hide modal
+      modal.hidden = true;
+      document.body.style.overflow = "";
+
+      // Remove iframe to stop video
+      iframeContainer.innerHTML = "";
+
+      // Return focus
+      lastFocusedElement?.focus();
+    };
+
+    // Click on hero section to open modal
+    heroSection?.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+
+      // Don't trigger on CTA button
+      if (target.closest(".hero-cta")) {
+        return;
+      }
+
+      openModal();
+    });
+
+    // CTA button - stop propagation to prevent modal opening
+    const ctaButton = document.querySelector(".hero-cta");
+    ctaButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    // Close button click
+    closeBtn?.addEventListener("click", closeModal);
+
+    // Backdrop click
+    backdrop?.addEventListener("click", closeModal);
+
+    // Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal?.hidden) {
+        closeModal();
+      }
+    });
+
+    // Focus trapping within modal
+    modal?.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab") return;
+
+      const focusableElements = modal.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable?.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable?.focus();
+        }
+      }
+    });
   });
 </script>
