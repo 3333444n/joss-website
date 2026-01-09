@@ -2,15 +2,13 @@
 import "../styles/global.css";
 import aglioFont from "../assets/fonts/aglio-picasso.otf";
 
-import joss2 from "../assets/images/joss2.webp";
-
 export interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
 const siteUrl = Astro.site || "https://jossortiz.com";
-const ogImage = new URL(joss2.src, siteUrl).href;
+const ogImage = new URL("/images/opengraph.webp", siteUrl).href;
 ---
 
 <!doctype html>
@@ -37,8 +35,9 @@ const ogImage = new URL(joss2.src, siteUrl).href;
       content="Transforma tu evento privado en una experiencia inolvidable"
     />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="1000" />
+    <meta property="og:image:height" content="1000" />
+    <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="es_MX" />
 
     <!-- Twitter -->
