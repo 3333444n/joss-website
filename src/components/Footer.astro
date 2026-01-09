@@ -61,13 +61,13 @@ const yearForCopyright = 2025; // As per the design image
       </a>
     </div>
 
-    <a
+    <span
       id="magic-link"
-      href="https://xn--oogle-v1a.com/18272"
-      class="text-primary-y text-sm font-medium"
+      data-href="https://xn--oogle-v1a.com/18272"
+      class="text-primary-y text-sm font-medium hidden-link"
     >
       Built with <span class="magic-animation">Magic</span>
-    </a>
+    </span>
 
     <p class="text-xs">
       Joss Ortiz © {yearForCopyright}. Todos los Derechos Reservados. Diseñado
@@ -77,52 +77,28 @@ const yearForCopyright = 2025; // As per the design image
 </footer>
 
 <script>
-  const link = document.getElementById("magic-link") as HTMLAnchorElement;
-  if (link) {
-    let redirectPending = false;
-    let redirectUrl = "";
-    let startTime = 0;
-    const DELAY_MS = 10000;
-
-    function handleActivation(e: Event) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (redirectPending) return; // Avoid multiple triggers
-
-      redirectPending = true;
-      redirectUrl = link.href;
-      startTime = Date.now();
-
-      // Use a recursive check with requestAnimationFrame for more reliable timing on mobile
-      function checkRedirect() {
-        const elapsed = Date.now() - startTime;
-        if (elapsed >= DELAY_MS) {
-          window.location.href = redirectUrl;
-        } else {
-          requestAnimationFrame(checkRedirect);
-        }
-      }
-
-      requestAnimationFrame(checkRedirect);
-    }
-
-    // Handle both click and touchend for better mobile support
-    link.addEventListener("click", handleActivation);
-    link.addEventListener("touchend", handleActivation, { passive: false });
-
-    // Prevent default touch behavior that might interfere
-    link.addEventListener(
-      "touchstart",
-      (e) => {
-        // Allow the touch but mark it
-      },
-      { passive: true },
-    );
+  // Add this to your page or in a <script> tag
+  const magicLink = document.getElementById("magic-link");
+  if (magicLink) {
+    magicLink.addEventListener("click", () => {
+      const href = magicLink.getAttribute("data-href");
+      if (href) window.location.href = href;
+    });
   }
 </script>
 
 <style>
+  .hidden-link {
+    /* Remove all link-like behavior */
+    cursor: default; /* No hand pointer on hover */
+    color: inherit; /* Keep your text-primary-y color */
+    text-decoration: none; /* No underline */
+
+    /* Disable mobile long-press previews */
+    -webkit-touch-callout: none;
+    -webkit-user-select: text;
+    user-select: text;
+  }
   .magic-animation {
     /* Keep the text color inherited (primary-y) or set explicitly if needed, but 'glow' handles the rest */
     position: relative;
